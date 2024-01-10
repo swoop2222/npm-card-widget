@@ -1,0 +1,142 @@
+<!-- Add other input fields as needed -->
+
+<div class="container w-50">
+      <div class="row sale" *ngIf= "amountCheck">
+          <div class="bg-light">
+              <div class="card-ui-productDetails">
+                  <div class="details">
+                      Detalles del Pago
+                  </div>
+                  <div class="product">
+                      ProductDetails
+                  </div>
+                  <div class="details">
+                      Número de cuenta
+                  </div>
+                  <div class="product">
+                     ServiceNo
+                  </div>
+              </div>
+          </div>
+          <div class="card-ui-amount">
+            {{amountCheck}}
+          </div>
+          <div class="card-ui-amount" *ngIf= "amountCheck">
+             
+              "Model.Itbms"
+             <br />
+                  Itbms
+          </div>
+      </div>
+      <div>
+
+        <div id="card-ui-component-notification-container" class="card-ui-component-alert card-ui-component-alert-danger">
+   
+        </div>
+        <div class="card-ui-details" id="card-ui-component-txt-creditcard-response">
+            <div class="roww" *ngIf="this.secondList && this.secondList.Message !== undefined"> <div class="property"> Token Response</div> <div class="value" id="tokenResponseCode"> {{secondList.Message}} </div> </div>
+            <div class="roww" *ngIf="this.secondList && this.secondList.ResponseData.TokenDetails.AccountToken  !== undefined"> <div class="property"> Account Token</div> <div class="value" id="accToken">{{secondList.ResponseData.TokenDetails.AccountToken}}</div> </div>
+            <div *ngIf="this.callValues.IsSale">
+                <div class="roww" *ngIf="this.secondList && this.secondList.ResponseData.SaleDetails.TransactionId  !== undefined"> <div class="property"> Transaction Id </div> <div class="value" id="transId">{{secondList.ResponseData.SaleDetails.TransactionId}}</div> </div>
+                <div class="roww" *ngIf="this.secondList && this.secondList.ResponseData.SaleDetails.Code  !== undefined"> <div class="property"> Transaction Code </div> <div class="value" id="transCode">{{secondList.ResponseData.SaleDetails.Code}}</div> </div>
+                <div class="roww" *ngIf="this.secondList && this.secondList.ResponseData.SaleDetails.Description  !== undefined"> <div class="property"> Description </div> <div class="value" id="descp">{{secondList.ResponseData.SaleDetails.Description}}</div> </div>
+                <div class="roww" *ngIf="this.secondList && this.secondList.ResponseData.SaleDetails.Amount  !== undefined"> <div class="property"> Amount </div> <div class="value" id="resp-amount">{{secondList.ResponseData.SaleDetails.Amount}}</div> </div>
+            </div>
+        </div>
+        <span id="close-button" class="close"> x</span>
+    </div>
+</div>
+<div class="container w-50">
+    <div class="row">
+        <button class="btn btn-primary" (click)="makeAPICall()">Make API Call</button>
+    </div>
+</div>
+<div *ngIf="showForm">
+    <form [formGroup]="cardForm">
+
+
+
+        <div class="container w-50">
+            <div class="card">
+                <div class="card-inner">
+                    <div class="front">
+                        <img src="https://i.ibb.co/PYss3yv/map.png" class="map-img">
+                        <div class="row">
+                            <img src="https://i.ibb.co/G9pDnYJ/chip.png" width="60px">
+                        </div>
+                        <div class="row card-no">
+                            <!-- <input type="text" id="number-signature" readonly [(ngModel)]="test" [imask]="imask" [ngModelOptions]="{standalone: true}"
+                        tabindex="-1" [unmask]="true" /> -->
+                            <span>{{cardNumber}}</span>
+                        </div>
+                        <div class="row card-holder">
+                            <p>CARD HOLDER</p>
+                            <p>VALID TILL</p>
+                        </div>
+                        <div class="row name">
+                            <!-- <input class="col-8" type="text" id="name-signature" readonly [(ngModel)]="name" tabindex="-1" [ngModelOptions]="{standalone: true}" /> -->
+                            <span>{{name}}</span>
+                            <!-- <input class="col-4" type="text" id="date-signature" readonly [(ngModel)]="validityDate" [class.inputError]="!validateDate()" [ngModelOptions]="{standalone: true}"
+                        tabindex="-1" /> -->
+                            <span>{{validityDate}}</span>
+                        </div>
+                        <div class="row">
+                            <div></div>
+                            <img *ngIf="validationRes?.card" [src]="getIssuerIcon()" width="60px">
+                        </div>
+                    </div>
+                    <div class="back">
+                        <img src="https://i.ibb.co/PYss3yv/map.png" class="map-img">
+                        <div class="bar"></div>
+                        <div class="row card-cvv">
+                            <div>
+                                <img src="https://i.ibb.co/S6JG8px/pattern.png">
+                            </div>
+                            <!-- <input type="text" id="cvv-signature" readonly [(ngModel)]="cvv" tabindex="-1" [ngModelOptions]="{standalone: true}" /> -->
+                            <span>{{cvv}}</span>
+                        </div>
+
+                        <div class="row signature">
+                            <p>CUSTOMER SIGNATURE</p>
+                            <img *ngIf="validationRes?.card" [src]="getIssuerIcon()" width="80px">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="container w-50">
+            <div class="row mt-3 mb-2">
+                <label class="col-lg-4 col-md-4 col-sm-12 col-xs-12 control-label">Card number</label>
+                <input class="col-lg-8 col-md-8 col-sm-12 col-xs-12 form-control" type="text" id="card-number"
+                    [class.inputError]="!validateNumber()" placeholder="card-number" formControlName="cardNumber"
+                    (input)="bindNumber($event)" (keyup)="validate()" [imask]="imask" [unmask]="true"
+                    [maxlength]="maxLength" />
+            </div>
+            <div class="row mb-2">
+                <label class="col-lg-4 col-md-4 col-sm-12 col-xs-12 control-label">Card Holder</label>
+                <input class="col-lg-8 col-md-8 col-sm-12 col-xs-12 form-control" type="text" id="name"
+                    formControlName="name" placeholder="cardholder name" (input)="bindName($event)" />
+            </div>
+            <div class="row mb-2">
+                <label class="col-lg-4 col-md-4 col-sm-12 col-xs-12 control-label">Exp Date</label>
+                <input class="col-lg-8 col-md-8 col-sm-12 col-xs-12 form-control" type="text" id="validity-date"
+                    [class.inputError]="!validateDate()" (input)="bindDate($event)" placeholder="00/00"
+                    [imask]="{mask:'00/00'}" formControlName="validityDate" />
+            </div>
+            <div *ngIf="cvvShow" class="row mb-2">
+                <label class="col-lg-4 col-md-4 col-sm-12 col-xs-12 control-label">CVV</label>
+                <input class="col-lg-8 col-md-8 col-sm-12 col-xs-12 form-control" type="text" id="cvv"
+                    (focus)="onFocusCVV()" formControlName="cvv" (input)="bindCvv($event)" (blur)="onBlurCVV()"
+                    [maxlength]="maxCvvLength" />
+            </div>
+            <div class="row">
+                <div class="col-5">
+                    <button class="btn-secondary btn btn-default" type="button"type="submit" [disabled]="!cardForm.valid" (click)="makeSecondAPICall()">Make
+                        Second API Call</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

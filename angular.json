@@ -27,7 +27,9 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [],
+            "scripts": ["src/assets/encryptScripts/BigInt.js",
+            "src/assets/encryptScripts/Barrett.js",
+            "src/assets/encryptScripts/RSA.js"],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
@@ -60,6 +62,7 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+
           "configurations": {
             "production": {
               "buildTarget": "demoapp:build:production"
@@ -95,6 +98,42 @@
           }
         }
       }
+    },
+    "my-card-widget": {
+      "projectType": "library",
+      "root": "projects/my-card-widget",
+      "sourceRoot": "projects/my-card-widget/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/my-card-widget/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/my-card-widget/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/my-card-widget/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/my-card-widget/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
